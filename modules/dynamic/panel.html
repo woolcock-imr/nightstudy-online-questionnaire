@@ -1,0 +1,269 @@
+<a name=signinout onclick="$vm.nav_click_process('vm_signinout');" style='cursor:pointer'>Sign out</a>
+
+<div id=panel__ID>
+    <div class='nav__ID container'>
+        <div class='row'>
+            <div class='col'>
+	    <span><h3>Clinic and Sleep Study Visit Questionnaires</h3><br>
+        Please complete each of the following sections. You will not be able to advance to the next section until you have completed all of the previous sections and questions. Please call us on XX or email us on XXX if you are having trouble completing these questionnaires or there are questions you do not understand.<br><br></span>
+        <ul>
+            <li module=personal>Personal</li>
+            <li module=medicare-referrals>Medicare Referrals</li>
+            <li module=sleep-history>Sleep History</li>
+            <li module=health-history>Health History</li>
+            <li module=epworth-sleepiness-scale>Epworth Sleepiness Scale</li>
+            <li module=additional-questions>Additional Questions</li>
+            <li module=short-sleep-history>Short Sleep History</li>
+        </ul>
+        <br><br><span>All questionnaires will appear greyed out when you have successfully completed all of them. Once they are completed please click on ‘sign-out’ above, to exit the system. Thank you for your time now in helping us help you during your upcoming visit. We look forward to seeing you soon.
+        </span>
+    </div>
+    <div class='col'>
+    </div>
+    </div>
+</div>
+</div>
+
+<script>
+	function F__ID(){
+		//alert($vm.g_task_list)
+		//alert($vm.app_config.parameters.task_list)
+		//--------------------------------------------------------
+		var url=$vm.url($vm.app_config.parameters.task_list);
+		var ver=localStorage.getItem(url+"_ver");
+		var txt=localStorage.getItem(url+"_txt");
+		//------------------------------------------
+		if(ver!=$vm.ver[1] || txt===null || $vm.debug===true || $vm.reload!=''){
+			console.log('loading '+url+'?_='+$vm.ver[1]+$vm.reload);
+			$.get(url+'?_='+$vm.ver[1]+$vm.reload,function(txt){
+				localStorage.setItem(url+"_txt",txt);
+				localStorage.setItem(url+"_ver",$vm.ver[1]);
+				setup(txt);;
+			},'text').fail(function() {
+				alert( "The configuration file ("+url+") doesn't exist!" );
+			});
+		}
+		else{ setup(txt); }
+		//------------------------------------------
+		var setup=function(txt){
+			var text=$('<div/>').html(txt).text();
+			//---------------------------
+			var config;
+			try{ config=JSON.parse(text);}
+			catch (e){ alert("Error in app config file\n"+e); return; }
+			//--------------------------------------------------------
+			var modules=$vm.app_config.modules;
+			for (var property in modules) {
+			   if($vm.module_list[property]==undefined){
+				   	$vm.module_list[property]=modules[property];
+			   }
+			}
+			//------------------------------------
+			q_list=config.quest_list;
+
+
+			var pids=$vm.g_task_list.split(',');
+            var txt="";
+            //----------------------------------
+            for(var i=0;i<pids.length;i++){
+                var pid=pids[i];
+                if(status[pid.toString()]==undefined){
+                    status[pid.toString()]={rid:0}
+                }
+                for(module in $vm.module_list){
+                    var aModule=$vm.module_list[module];
+                    if(aModule.table_id!==undefined){
+                        var module_pid=aModule.table_id;
+                        if(pid==module_pid && aModule.name!=undefined){
+                            txt+="<li id="+pid+" data-form_name="+module+">"+aModule.name+"</li>";
+                        }
+                    }
+                }
+            }
+alert(txt)
+            $('#items__ID').html(txt);
+
+
+        }
+        //-------------------------------------
+
+
+/*
+		var status=[]
+        //---------------------------------
+        var get_data=function(){
+            //----------------------------------
+            //input
+            var participant=_mobj.op.participant;
+            var participant_uid=_mobj.op.participant_uid;
+            var task_list=_mobj.op.task_list;
+            //----------------------------------
+            //display participant
+            $('#info__ID').text(_mobj.op.participant);
+            //----------------------------------
+            //setup tasl LI list and sql for checking Completed task
+            var pids=task_list.split(',');
+            var txt="";
+            //----------------------------------
+            for(var i=0;i<pids.length;i++){
+                var pid=pids[i];
+                if(status[pid.toString()]==undefined){
+                    status[pid.toString()]={rid:0}
+                }
+                for(module in $vm.module_list){
+                    var aModule=$vm.module_list[module];
+                    if(aModule.table_id!==undefined){
+                        var module_pid=aModule.table_id;
+                        if(pid==module_pid && aModule.name!=undefined){
+                            txt+="<li id="+pid+" data-form_name="+module+">"+aModule.name+"</li>";
+                        }
+                    }
+                }
+            }
+            $('#items__ID').html(txt);
+            //----------------------------------
+            $('#items__ID li').each(function(){
+                var $li=$(this);
+                var li_pid=$li.attr('id');
+                if(status[li_pid].rid==0){
+                    var req={cmd:'query_records_s2',db_pid:li_pid,fields:'ID'};
+                    jQuery.ajaxSetup({async:false});
+                    $VmAPI.request({data:req,callback:function(res){
+                        if(res.records.length==0){
+                        }
+                        else{
+                            status[li_pid].rid=1;
+                        }
+                    }})
+                    jQuery.ajaxSetup({async:true});
+                }
+                if(status[li_pid].rid==0){
+                    var txt=$li.html();
+                    var li_form_name=$li.attr('data-form_name');
+                    $li.html("<u style='cursor:pointer' data-form_name="+li_form_name+">"+txt+"</u>");
+                    $li.find('u').on('click',function(){
+                        var module_name=$(this).attr('data-form_name');
+                        var module_id=$vm.get_module_id({name:module_name});
+                        $('#new'+module_id).triggerHandler('click');
+                        $('#D'+module_id).triggerHandler('load_quest_form_module',[{participant:participant,participant_uid:participant_uid,task_name:txt}]);
+                    });
+					var this_mobj  =_mobj.op.mobj;
+					var this_record=_mobj.op.record;
+					var op={
+						//-----------------
+						sys:_sys,
+						mobj:this_mobj,
+						record:this_record,
+						//-----------------
+					}
+                    $vm.load_module_by_name(li_form_name,undefined,op);
+                    return false; // break out the loop
+                }
+            })
+            //----------------------------------
+        }
+
+
+*/
+
+
+
+
+
+		return;
+
+
+
+/*
+		var group="",config="";
+		$vm.load_config_and_init("/configurations/first.json",function(cfg){
+			config=cfg;
+			if(config.group!==undefined){
+				group=config.group+"_";
+			}
+		});
+
+		//--------------------------------------------------------
+		$('#panel__ID li').on('click',function(event){
+			event.stopPropagation();
+			if( $(this).hasClass( 'li_not_allowed__ID' )===true){
+				  alert("No permission!");
+				  return;
+			}
+			var m=group+$(this).attr('module');
+			$vm.nav_load_module(m);
+		});
+		//--------------------------------------------------------
+		$('#D__ID').on('load',function(){
+			set_first_link();
+		})
+		//--------------------------------------------------------
+		$('#D__ID').on('show',function(){
+			set_first_link();
+		})
+		//--------------------------------------------------------
+		var set_first_link=function(){
+			var req={cmd:'participant_task_status_v2',participant_username:$vm.user,check_uid:"1",json:"1"};
+			$VmAPI.request({data:req,callback:function(res){
+				var done=0;
+				$('#panel__ID li').each(function(){
+					var $li=$(this);
+					$li.off('click');
+					$li.removeClass('li_allowed__ID')
+					$li.addClass('li_not_allowed__ID')
+					if(done===0){
+						var module=$li.attr('module');
+						if($vm.module_list[module]==undefined){
+							alert("The module "+module+" is not in the module list");
+							return;
+						}
+						var li_pid=$vm.module_list[module].table_id;
+						var found_pid=0;
+						for(var i=0;i<res.records.length;i++){
+							if(res.records[i]['PID']==li_pid){
+								found_pid=1;
+								break;
+							}
+						}
+						if(found_pid===0){ //no record on server
+							done=1;
+							$li.removeClass('li_not_allowed__ID')
+							$li.addClass('li_allowed__ID')
+							$li.on('click',function(){
+								var m=group+$(this).attr('module');
+								$vm.nav_load_module(m,$vm.root_layout_content_slot,{db_pid:$vm.module_list[m].table_id});
+							});
+							//--------------------------------------------------------
+						}
+					}
+				});
+			}})
+			//--------------------------------------------------------
+		}
+		//--------------------------------------------------------
+		*/
+	}
+</script>
+<style>
+	#D__ID{
+		/*background: url("__PARTS__/image/texture.png");*/
+		height:100%;
+		overflow: auto;
+		animation: vm_module_fadein 1.0s;
+	}
+	#panel__ID{
+		padding:30px;
+	}
+	#panel__ID li:hover {
+		color:red;
+		cursor:pointer;
+	}
+	.li_not_allowed__ID{
+		color:#999!Important;
+		cursor:not-allowed!Important;
+	}
+	.li_allowed__ID{
+		color:#000!Important;
+		cursor:pointer!Important;
+	}
+</style>
