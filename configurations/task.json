@@ -1,0 +1,9 @@
+{
+	"group_name":"main",
+	"modules":
+	{
+		"v1s1_TI_KSS1":   {"table_id":"20010488","url":"modules/dynamic/task/karolinska_sleepiness_scale.form.html","task":"KSS before PVT"},
+		"v1s1_T1_KSS2":   {"table_id":"20010490","url":"modules/dynamic/task/karolinska_sleepiness_scale.form.html","task":"KSS after PVT"},
+		"v1s3_T5_2_back": {"table_id":"20010574","url":"modules/dynamic/task/N2_Back_Practice.form.html","task":"v1s3 T5 2 back"}
+	}
+}

@@ -11,6 +11,7 @@
 </section>
 <script>
     function F__ID(){
+		$('#username_0').text('');
 		var search=window.location.search
 		if(search.indexOf('username=')!=-1){
 			var txt=search.split('username=')[1];
@@ -35,7 +36,7 @@
             var participant_uid=a[0];
             var setup_pid=a[1];
 			//------------------------------------
-			$vm.g_participant_pid=setup_pid;	//no participant, only visit setup
+			$vm.g_participant_pid='20010469';	
 			$vm.g_participant_uid=participant_uid;
 			$vm.g_participant=participant_uid;
 			$vm.g_setup_pid=setup_pid;
@@ -45,13 +46,11 @@
                     $vm.online_questionnaire=1;
                     $vm.user=username;
                     $vm.user_id=res.user_id;
-					$('#username_0').text(username);
+					$('#username_0').text('Signed in as '+username);
                     $VmAPI.set_token(res.token,'');
-                    //$vm.signout_obj.show();
-                    //$vm.username_obj.text('Login as '+ $vm.user);
                     if(res.S1!=undefined) $vm.g_participant=res.S1;
 					$vm.g_task_list=res.List;
-					$vm.nav_load_module("panel");
+					$vm.nav_load_module("main_quest_panel");
                 }
                 else{
                     $('#ErrMsg__ID').text("Invalid participant login ID or password.")
@@ -62,6 +61,10 @@
     }
 </script>
 <style>
+	#D__ID{
+		overflow: auto;
+		animation: vm_module_fadein 1.0s;
+	}
     .C__ID__s{
         font: 18pt "Arial";
         padding:80px;

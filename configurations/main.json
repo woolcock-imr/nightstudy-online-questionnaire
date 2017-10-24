@@ -1,0 +1,8 @@
+{
+	"modules":
+	{
+		"home":						{"url":"/modules/panel/signin.html"},
+		"quest_panel":				{"url":"/modules/panel/quest.html"}
+	},
+	"participant_group_name":"main"
+}

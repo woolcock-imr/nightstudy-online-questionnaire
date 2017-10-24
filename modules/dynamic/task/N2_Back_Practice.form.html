@@ -1,0 +1,83 @@
+<section style='display:none'>
+    <form id=F__ID>
+        <table id=tb__ID>
+            <tr><td data-id=Participant data-custom=1>
+            	<input name=Participant  id=Participant__ID  type=text class=sel__ID />
+    			<input name=Participant_uid id=Participant_uid__ID type=text />
+    	    </td></tr>
+        </table>
+    </form>
+</section>
+<section style='margin:auto'>
+    VmInclude:__COMPONENT__/toolbar/back_save.html
+    <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="1100" height="800" align="middle">
+        <param value="modules/dynamic/task/flash/NBack2_1min.swf"/>
+        <!--[if !IE]>-->
+        <object type="application/x-shockwave-flash" data="modules/dynamic/task/flash/NBack2_1min.swf" width="1100" height="800">
+            <param value="modules/dynamic/task/flash/NBack2_1min.swf"/>
+        <!--<![endif]-->
+            <a href="//www.adobe.com/go/getflash">
+                <img src="//www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player"/>
+            </a>
+        <!--[if !IE]>-->
+        </object>
+        <!--<![endif]-->
+    </object>
+</section>
+<script>
+	function F__ID(){
+		//----------------------------------
+		VmInclude:__CURRENT_PATH__/task.js
+		//----------------------------------
+		_before_submit_form=function(){return true;}
+		//----------------------------------
+		g_nback2_1min_callback=function(param){
+			var record={};
+            var a=param.split('&');
+            for(var i=0;i<a.length;i++){
+                var b=a[i].split('=');
+                try{
+					if(b[0]!="") record[b[0]]=b[1]
+                }catch(e){}
+            }
+            calc(record);
+			save_record(record)
+        };
+        //-------------------------------------
+        var calc=function(record){
+            var nno=record['NNO'].split(",");
+            var nrt=record['NRT'].split(",");
+            var nac=record['NAC'].split(",");
+            var ngta=0;
+            var nrgt=0;
+            var ntcr=0;
+            var ntic=0;
+            var ntmr=0;
+            var nmis=0;
+            for (var i=0;i<nno.length;i++){
+    	        if( nac[i]=='CM' && nno[i]!='PRE')   ntcr++;
+    	        if( nac[i]=='CN' && nno[i]!='PRE')   ntcr++;
+    	        if( nac[i]=='O' && nno[i]!='PRE')    nmis++;
+    	        if( nac[i]=='FM' && nno[i]!='PRE')   ntic++;
+    	        if( nac[i]=='FN' && nno[i]!='PRE')   ntic++;
+    	        if( nac[i]=='W' && nno[i]!='PRE')    ntic++;
+    	        if( nno[i]!='PRE')   nrgt=nrgt+parseInt(nrt[i]);
+            }
+            if( ntcr+ntic > 0){
+                ngta=(100*ntcr/(ntcr+ntic)).toFixed(1)
+                record['NGTA']=ngta;
+            }
+            else  record['NGTA']='0';
+            record['NBACK']='P';
+            record['NTCR']=ntcr;
+            record['NMIS']=nmis;
+            record['NTIC']=ntic;
+            record['NGRT']=nrgt;
+        }
+        //-------------------------------------
+	}
+</script>
+<style>
+    VmInclude:__COMPONENT__/style/default.css
+    VmInclude:__COMPONENT__/style/form.css
+</style>
