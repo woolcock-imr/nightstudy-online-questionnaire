@@ -2,15 +2,15 @@
 	"group_name":"main",
 	"modules":
 	{
-		"v1s1_T6_PAT1":        {"table_id":"20011323","url":"modules/dynamic/task/File_upload.html","task":"Visit 1 Shift 1 Trial 6 PAT 1"},
-		"v1s2_T6_PAT1":        {"table_id":"20011324","url":"modules/dynamic/task/File_upload.html","task":"Visit 1 Shift 2 Trial 6 PAT 1"},
+		"v1s1_T6_PAT1":        {"table_id":"20011323","url":"modules/dynamic/task/Set1_Evening_Wordpairs_Practice.html","task":"Visit 1 Shift 1 Trial 6 PAT 1"},
+		"v1s2_T6_PAT1":        {"table_id":"20011324","url":"modules/dynamic/task/Set2_Evening_Wordpairs_Practice.html","task":"Visit 1 Shift 2 Trial 6 PAT 1"},
 		"v1s3_T6_PAT1":        {"table_id":"20011325","url":"modules/dynamic/task/File_upload.html","task":"Visit 1 Shift 3 Trial 6 PAT 1"},
 		"v2s4_T6_PAT1":        {"table_id":"20011326","url":"modules/dynamic/task/File_upload.html","task":"Visit 2 Shift 4 Trial 6 PAT 1"},
 		"v2s5_T6_PAT1":        {"table_id":"20011327","url":"modules/dynamic/task/File_upload.html","task":"Visit 2 Shift 5 Trial 6 PAT 1"},
 		"v2s6_T6_PAT1":        {"table_id":"20011328","url":"modules/dynamic/task/File_upload.html","task":"Visit 2 Shift 6 Trial 6 PAT 1"},
 
-		"v1s1_T6_PAT2":        {"table_id":"20011329","url":"modules/dynamic/task/File_upload.html","task":"Visit 1 Shift 1 Trial 6 PAT 2"},
-		"v1s2_T6_PAT2":        {"table_id":"20011330","url":"modules/dynamic/task/File_upload.html","task":"Visit 1 Shift 2 Trial 6 PAT 2"},
+		"v1s1_T6_PAT2":        {"table_id":"20011329","url":"modules/dynamic/task/Set1_Evening_Wordpairs_Practice.html","task":"Visit 1 Shift 1 Trial 6 PAT 2"},
+		"v1s2_T6_PAT2":        {"table_id":"20011330","url":"modules/dynamic/task/Set2_evening_wordpairs_T1.html","task":"Visit 1 Shift 2 Trial 6 PAT 2"},
 		"v1s3_T6_PAT2":        {"table_id":"20011331","url":"modules/dynamic/task/File_upload.html","task":"Visit 1 Shift 3 Trial 6 PAT 2"},
 		"v2s4_T6_PAT2":        {"table_id":"20011332","url":"modules/dynamic/task/File_upload.html","task":"Visit 2 Shift 4 Trial 6 PAT 2"},
 		"v2s5_T6_PAT2":        {"table_id":"20011333","url":"modules/dynamic/task/File_upload.html","task":"Visit 2 Shift 5 Trial 6 PAT 2"},
