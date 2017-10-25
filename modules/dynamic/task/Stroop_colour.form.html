@@ -1,0 +1,69 @@
+<section style='display:none'>
+    <form id=F__ID>
+        <table id=tb__ID style='width:600px;'>
+            <tr><td data-id=Participant data-custom=1>
+            	<input name=Participant  id=Participant__ID  type=text class=sel__ID />
+    			<input name=Participant_uid id=Participant_uid__ID type=text />
+    	    </td></tr>
+        </table>
+    </form>
+</section>
+<section style='margin:auto'>
+    VmInclude:__COMPONENT__/toolbar/back_save.html
+    <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="1100" height="800" align="middle">
+        <param value="modules/dynamic/task/flash/stroop_col.swf?ver=10"/>
+        <!--[if !IE]>-->
+        <object type="application/x-shockwave-flash" data="modules/dynamic/task/flash/stroop_col.swf?ver=10" width="1100" height="800">
+            <param value="modules/dynamic/task/flash/stroop_col.swf?ver=10"/>
+        <!--<![endif]-->
+            <a href="//www.adobe.com/go/getflash">
+                <img src="//www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player"/>
+            </a>
+        <!--[if !IE]>-->
+        </object>
+        <!--<![endif]-->
+    </object>
+</section>
+<script>
+    function F__ID(){
+        $("#toolbar__ID").hide();
+        //----------------------------------
+		VmInclude:__CURRENT_PATH__/task.js
+		//----------------------------------
+		_before_submit_form=function(){return true;}
+		//----------------------------------
+        g_stroop_col_callback=function(param){
+            var record={};
+            var a=param.split('&');
+            for(var i=0;i<a.length;i++){
+                var b=a[i].split('=');
+                try{
+                    if(b[0]!="") record[b[0]]=b[1]
+                }catch(e){}
+            }
+            calc(record);
+            save_record(record);            
+        };
+        //-------------------------------------
+        var calc=function(record){
+    	    var rt=record['ReactionTimes'].split(",");
+            var res=record['Result'].split(",");
+            var corr=0;
+            var react=0.0;
+            for (var i=0;i<rt.length;i++){
+    	        react=react+parseInt(rt[i]);
+    	        if(res[i]=='C') corr++;
+            }
+            record['SPC']=(100*corr/rt.length).toFixed(1);
+            record['SPRT']=(react/rt.length*0.001).toFixed(3);
+            record['STTT']="30";
+            record['SCORR']=corr;
+            record['STotal']=rt.length;
+    	}
+        //-------------------------------------
+    }
+</script>
+<style>
+    VmInclude:__BASE__/vmiis/Common-Code/style/default.css
+    VmInclude:__BASE__/vmiis/Common-Code/style/form.css
+</style>
