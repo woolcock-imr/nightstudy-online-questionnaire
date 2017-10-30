@@ -1,8 +1,8 @@
 {
 	"modules":
 	{
-		"home":						{"url":"/modules/panel/signin.html"},
-		"quest_panel":				{"url":"/modules/panel/quest.html"}
+		"home":						{"url":"/modules/home.html"},
+		"quest_panel":				{"url":"/modules/dynamic/quest.html"}
 	},
 	"participant_group_name":"main"
 }
